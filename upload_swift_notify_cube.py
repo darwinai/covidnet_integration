@@ -46,7 +46,6 @@ while len(object_list) < len(dcmFiles) and poll_loop < max_polls:
                 SWIFT_CONTAINER_NAME, 
                 prefix=output_path,
                 full_listing=True)[1]
-    print(object_list)
     if len(object_list) < len(dcmFiles):
         time.sleep(0.2)
         poll_loop += 1
@@ -72,14 +71,14 @@ for index in range(len(dcmFiles)):
       if not args.mock:
         pacs_data = {
           'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
-          'PatientID': str(ds['0010', '0020'].value), 
-          'PatientName': str(ds['0010', '0010'].value), 
-          'PatientAge': str(ds['0010','1010'].value),
-          'PatientSex': str(ds['0010','0040'].value),
-          'StudyInstanceUID': str(ds['0020','000d'].value), 
+          'PatientID': str(ds.PatientID), 
+          'PatientName': str(ds.PatientName), 
+          'PatientAge': str(ds.PatientAge),
+          'PatientSex': str(ds.PatientSex),
+          'StudyInstanceUID': str(ds.StudyInstanceUID), 
           'StudyDescription': 'Some description of the study', 
-          'SeriesInstanceUID': str(ds['0020', '000e'].value), 
-          'SeriesDescription': str(ds['0008', '103e'].value), 
+          'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
+          'SeriesDescription': str(ds.SeriesDescription), 
           'pacs_name': 'covidnet'
         }
       else:  # use mock
@@ -87,12 +86,12 @@ for index in range(len(dcmFiles)):
           'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
           'PatientID': str(mockData['PatientID']+index), 
           'PatientName': str(mockNames[index]) if index < len(mockNames) else str(mockNames[len(mockData)-1]), 
-          'PatientAge': str(ds['0010','1010'].value),
-          'PatientSex': str(ds['0010','0040'].value),
+          'PatientAge': str(ds.PatientAge),
+          'PatientSex': str(ds.PatientSex),
           'StudyInstanceUID': str(str(mockData['StudyInstanceUID']+index)), 
           'StudyDescription': 'Some description of the study', 
           'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
-          'SeriesDescription': str(ds['0008', '103e'].value), 
+          'SeriesDescription': str(ds.SeriesDescription), 
           'pacs_name': 'covidnet'
         }
       try:
