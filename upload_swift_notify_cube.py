@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
-import swiftclient
-import time
 import argparse
-
-from pydicom import dcmread
+import time
 from os import listdir, system
 from os.path import isfile, join
 
+import swiftclient
 from chrisclient import client
 from chrisclient.exceptions import ChrisRequestException
+from pydicom import dcmread
 
 parser = argparse.ArgumentParser(description='COVID-Net Training Script')
-parser.add_argument('--imageDir', default='images', type=str, help='Directory containing images to upload')
+parser.add_argument('--imageDir',
+                    default='images',
+                    type=str,
+                    help='Directory containing images to upload')
 
 args = parser.parse_args()
 
-chris_client = client.Client("http://localhost:8000/api/v1/", "chris", "chris1234")
+chris_client = client.Client("http://localhost:8000/api/v1/", "chris",
+                             "chris1234")
 
 # Swift service settings
 DEFAULT_FILE_STORAGE = 'swift.storage.SwiftStorage'
@@ -30,9 +33,9 @@ folder = args.imageDir
 dcmFiles = [[folder, f] for f in listdir(folder) if isfile(join(folder, f))]
 
 for f in dcmFiles:
-    system(f'swift -A {SWIFT_AUTH_URL} -U {SWIFT_USERNAME} '
-      + '-K testing upload users {}/{} '.format(f[0], f[1]) 
-      +'--object-name "{}/{}"'.format(output_path, f[1]))
+    system(f'swift -A {SWIFT_AUTH_URL} -U {SWIFT_USERNAME} ' +
+           '-K testing upload users {}/{} '.format(f[0], f[1]) +
+           '--object-name "{}/{}"'.format(output_path, f[1]))
 
 # Initiate a Swift service connection
 conn = swiftclient.Connection(user=SWIFT_USERNAME,
@@ -44,37 +47,36 @@ poll_loop = 0
 max_polls = 20
 
 while len(object_list) < len(dcmFiles) and poll_loop < max_polls:
-    object_list = conn.get_container(
-                SWIFT_CONTAINER_NAME, 
-                prefix=output_path,
-                full_listing=True)[1]
+    object_list = conn.get_container(SWIFT_CONTAINER_NAME,
+                                     prefix=output_path,
+                                     full_listing=True)[1]
     if len(object_list) < len(dcmFiles):
         time.sleep(0.2)
         poll_loop += 1
 
 for index in range(len(dcmFiles)):
-  f = dcmFiles[index]
-  with open(join(f[0],f[1]), 'rb') as infile:
-      ds = dcmread(infile)
-      pacs_data = {
-        'path': f'SERVICES/PACS/covidnet/{f[1]}',
-        'PatientID': str(ds.PatientID), 
-        'PatientName': str(ds.PatientName), 
-        'PatientBirthDate': str(ds.PatientBirthDate),
-        'PatientAge': str(ds.PatientAge),
-        'PatientSex': str(ds.PatientSex),
-        'ProtocolName': str(ds.ProtocolName), 
-        'StudyDate': str(ds.StudyDate), 
-        'StudyInstanceUID': str(ds.StudyInstanceUID), 
-        'StudyDescription': str(ds.StudyDescription), 
-        'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
-        'SeriesDescription': str(ds.SeriesDescription), 
-        'Modality': ds.Modality,
-        'pacs_name': 'covidnet'
-      }
-      try:
-        chris_client.register_pacs_file(pacs_data)
-      except ChrisRequestException as e:
-        print(f"{f[1]}: {e}")
-        continue
-      print('SUCCESS')
+    f = dcmFiles[index]
+    with open(join(f[0], f[1]), 'rb') as infile:
+        ds = dcmread(infile)
+        pacs_data = {
+            'path': f'SERVICES/PACS/covidnet/{f[1]}',
+            'PatientID': str(ds.PatientID),
+            'PatientName': str(ds.PatientName),
+            'PatientBirthDate': str(ds.PatientBirthDate),
+            'PatientAge': str(ds.PatientAge),
+            'PatientSex': str(ds.PatientSex),
+            'ProtocolName': str(ds.ProtocolName),
+            'StudyDate': str(ds.StudyDate),
+            'StudyInstanceUID': str(ds.StudyInstanceUID),
+            'StudyDescription': str(ds.StudyDescription),
+            'SeriesInstanceUID': str(ds.SeriesInstanceUID),
+            'SeriesDescription': str(ds.SeriesDescription),
+            'Modality': ds.Modality,
+            'pacs_name': 'covidnet'
+        }
+        try:
+            chris_client.register_pacs_file(pacs_data)
+        except ChrisRequestException as e:
+            print(f"{f[1]}: {e}")
+            continue
+        print('SUCCESS')
