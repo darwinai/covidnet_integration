@@ -58,9 +58,16 @@ mockData = {
   "SeriesInstanceUID": 22222222
 }
 
+mockBirthDate = "1994-2-10"
+
 
 mockNames = [
-  "Bill Ha", "Example Name", "Linda Young", "Example name2", "Example name3"
+  "Bill Ha"
+]
+
+# if the image belong here, put them in a different studyinstanceUID
+differentInstance = [
+  'PatientF.dcm'
 ]
 
 
@@ -73,6 +80,7 @@ for index in range(len(dcmFiles)):
           'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
           'PatientID': str(ds.PatientID), 
           'PatientName': str(ds.PatientName), 
+          'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
           'PatientAge': str(ds.PatientAge),
           'PatientSex': str(ds.PatientSex),
           'StudyInstanceUID': str(ds.StudyInstanceUID), 
@@ -84,12 +92,13 @@ for index in range(len(dcmFiles)):
       else:  # use mock
         pacs_data = {
           'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
-          'PatientID': str(mockData['PatientID']+index), 
-          'PatientName': str(mockNames[index]) if index < len(mockNames) else str(mockNames[len(mockData)-1]), 
+          'PatientID': str(mockData['PatientID']), 
+          'PatientName': str(mockNames[len(mockNames)-1]) if index >= len(mockNames) else str(mockNames[index]), 
+          'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
           'PatientAge': str(ds.PatientAge),
           'PatientSex': str(ds.PatientSex),
-          'StudyInstanceUID': str(str(mockData['StudyInstanceUID']+index)), 
-          'StudyDescription': 'Some description of the study', 
+          'StudyInstanceUID': str(mockData['StudyInstanceUID']) if f[1] not in differentInstance else  str(mockData['StudyInstanceUID']+2),
+          'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "XRay Scan for possible normal", 
           'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
           'SeriesDescription': str(ds.SeriesDescription), 
           'pacs_name': 'covidnet'
