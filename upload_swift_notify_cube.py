@@ -67,7 +67,9 @@ mockNames = [
 
 # if the image belong here, put them in a different studyinstanceUID
 differentInstance = [
-  'PatientF.dcm'
+  'PatientF.dcm',
+  '0000.dcm',
+  '0001.dcm'
 ]
 
 
@@ -77,7 +79,7 @@ for index in range(len(dcmFiles)):
       ds = dcmread(infile)
       if not args.mock:
         pacs_data = {
-          'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
+          'path': f'SERVICES/PACS/covidnet/{f[1]}',
           'PatientID': str(ds.PatientID), 
           'PatientName': str(ds.PatientName), 
           'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
@@ -91,16 +93,16 @@ for index in range(len(dcmFiles)):
         }
       else:  # use mock
         pacs_data = {
-          'path': 'SERVICES/PACS/covidnet/{}'.format(f[1]),
+          'path': f'SERVICES/PACS/covidnet/{f[1]}',
           'PatientID': str(mockData['PatientID']), 
           'PatientName': str(mockNames[len(mockNames)-1]) if index >= len(mockNames) else str(mockNames[index]), 
           'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
-          'PatientAge': str(ds.PatientAge),
+          'PatientAge': str(ds.PatientAge) if hasattr(ds, 'PatientAge') else 30,
           'PatientSex': str(ds.PatientSex),
           'StudyInstanceUID': str(mockData['StudyInstanceUID']) if f[1] not in differentInstance else  str(mockData['StudyInstanceUID']+2),
           'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "XRay Scan for possible normal", 
           'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
-          'SeriesDescription': str(ds.SeriesDescription), 
+          'SeriesDescription': str(ds.SeriesDescription) if hasattr(ds, 'SeriesDescription') else 'Default Description',
           'pacs_name': 'covidnet'
         }
       try:
