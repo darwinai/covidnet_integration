@@ -89,6 +89,7 @@ for index in range(len(dcmFiles)):
           'StudyDescription': 'Some description of the study', 
           'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
           'SeriesDescription': str(ds.SeriesDescription), 
+          'Modality': ds.Modality,
           'pacs_name': 'covidnet'
         }
       else:  # use mock
@@ -103,6 +104,7 @@ for index in range(len(dcmFiles)):
           'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "XRay Scan for possible normal", 
           'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
           'SeriesDescription': str(ds.SeriesDescription) if hasattr(ds, 'SeriesDescription') else 'Default Description',
+          'Modality': ds.Modality if hasattr(ds, 'Modality') else 'CT',
           'pacs_name': 'covidnet'
         }
       try:

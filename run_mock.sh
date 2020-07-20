@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python upload_swift_notify_cube.py  --mock true
+python3 upload_swift_notify_cube.py  --mock true
