@@ -38,8 +38,8 @@
       "name": "sliceToConvert",
       "type": "str",
       "optional": true,
-      "flag": "-s--sliceToConvert",
-      "short_flag": "-s--sliceToConvert",
+      "flag": "--sliceToConvert",
+      "short_flag": "-s",
       "action": "store",
       "help": "slice to convert (for 3D data)",
       "default": "-1",
@@ -58,13 +58,13 @@
     },
     {
       "name": "printElapsedTime",
-      "type": "str",
+      "type": "bool",
       "optional": true,
       "flag": "--printElapsedTime",
       "short_flag": "--printElapsedTime",
-      "action": "store",
+      "action": "store_true",
       "help": "print program run time",
-      "default": "",
+      "default": false,
       "ui_exposed": true
     },
     {
