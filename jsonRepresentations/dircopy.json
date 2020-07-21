@@ -1,0 +1,34 @@
+{
+  "type": "fs",
+  "parameters": [
+    {
+      "name": "dir",
+      "type": "path",
+      "optional": false,
+      "flag": "--dir",
+      "action": "store",
+      "help": "directory to be copied",
+      "default": null,
+      "ui_exposed": true
+    }
+  ],
+  "icon": "",
+  "authors": "FNNDSC (dev@babyMRI.org)",
+  "title": "A directory copy chris fs app",
+  "category": "copy",
+  "description": "A plugin fs app to copy an entire directory",
+  "documentation": "http://wiki",
+  "license": "Opensource (MIT)",
+  "version": "0.1.1",
+  "selfpath": "/usr/src/dircopy",
+  "selfexec": "dircopy.py",
+  "execshell": "python3",
+  "max_number_of_workers": 1,
+  "min_number_of_workers": 1,
+  "max_memory_limit": "",
+  "max_cpu_limit": "",
+  "min_memory_limit": "",
+  "min_cpu_limit": "",
+  "min_gpu_limit": 0,
+  "max_gpu_limit": 0
+}
