@@ -21,14 +21,14 @@ SWIFT_AUTH_URL = 'http://127.0.0.1:8080/auth/v1.0'
 SWIFT_USERNAME = 'chris:chris1234'
 SWIFT_KEY = 'testing'
 SWIFT_CONTAINER_NAME = 'users'
-folder = 'images'
 output_path = 'SERVICES/PACS/covidnet'
+folder = 'images'
 
 # get all dicom images
 dcmFiles = [[folder, f] for f in listdir(folder) if isfile(join(folder, f))]
 
 for f in dcmFiles:
-    system('swift -A {} -U {} '.format(SWIFT_AUTH_URL, SWIFT_USERNAME)
+    system(f'swift -A {SWIFT_AUTH_URL} -U {SWIFT_USERNAME} '
       + '-K testing upload users {}/{} '.format(f[0], f[1]) 
       +'--object-name "{}/{}"'.format(output_path, f[1]))
 
@@ -57,19 +57,20 @@ mockData = {
   "StudyInstanceUID": 11111111,
   "SeriesInstanceUID": 22222222
 }
-
 mockBirthDate = "1994-2-10"
-
-
 mockNames = [
   "Bill Ha"
 ]
-
 # if the image belong here, put them in a different studyinstanceUID
 differentInstance = [
-  'PatientF.dcm',
   '0000.dcm',
-  '0001.dcm'
+  '0001.dcm',
+  '0002.dcm',
+  '0003.dcm',
+  '0004.dcm',
+  '0005.dcm',
+  '0006.dcm',
+  'ex-covid-ct.dcm'
 ]
 
 
@@ -101,7 +102,7 @@ for index in range(len(dcmFiles)):
           'PatientAge': str(ds.PatientAge) if hasattr(ds, 'PatientAge') else 30,
           'PatientSex': str(ds.PatientSex),
           'StudyInstanceUID': str(mockData['StudyInstanceUID']) if f[1] not in differentInstance else  str(mockData['StudyInstanceUID']+2),
-          'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "XRay Scan for possible normal", 
+          'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "CT Scan for possible Covid", 
           'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
           'SeriesDescription': str(ds.SeriesDescription) if hasattr(ds, 'SeriesDescription') else 'Default Description',
           'Modality': ds.Modality if hasattr(ds, 'Modality') else 'CT',

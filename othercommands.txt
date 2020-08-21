@@ -1,0 +1,5 @@
+
+# create chris account
+http POST http://localhost:8010/api/v1/users/ Content-Type:application/vnd.collection+json Accept:application/vnd.collection+json template:='{"data":[{"name":"email","value":"jeffer.peng@darwinai.ca"}, {"name":"password","value":"chris1234"}, {"name":"username","value":"jeffer"}]}'
+
+# when uploading plugins, if no remote resource are avaliable, create one under Compute resources -> add compute resources
