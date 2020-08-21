@@ -8,6 +8,7 @@ import swiftclient
 import time
 import argparse
 from multiprocessing import Process
+from pathlib import Path
 
 from pydicom import dcmread
 import os
@@ -97,7 +98,8 @@ def UploadSwift(dcmFiles):
 
 
 def monitorHospitalfolders(hospital_system):
-    current_directory = os.getcwd()
+    current_directory = Path(os.getcwd())
+    parent_directory = current_directory.parent
     folders = hospital_system_folders[hospital_system]
     # create a set to store uploaded images for each hospital subfolder
     hospitals_dict = {}
@@ -107,7 +109,7 @@ def monitorHospitalfolders(hospital_system):
     while True:
         for folder in folders:
             existing_images = hospitals_dict[folder]
-            folderName = f"{current_directory}/{hospital_system}/{folder}"
+            folderName = f"{parent_directory}/{hospital_system}/{folder}"
 
             # Index 0: folder 1: filename
             dcmFiles = [[folderName, f] for f in listdir(folderName) if isfile(join(folderName, f))]
