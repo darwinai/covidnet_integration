@@ -1,13 +1,13 @@
-### This script is supposed to be used in the following folder structure:
-### using hospitalSystemA for example, starting from level 1
-### level 1: hospitalSystemA
-### level 2: Hospital1 Hospital2 .... covidnet_integration
-### similarly for other hospital systems 
+### This script is supposed to be used in the parent folder of hospital system folders generated 
+###     by generateHospitalFolderStructure.sh
+### level 1: covidnet_integration
+### level 2: hospitalSystemA hospitalSystemB hospitalSystemC
 ### to run: python3 monitorAndUploadSwift.py
 
 import swiftclient
 import time
 import argparse
+from multiprocessing import Process
 
 from pydicom import dcmread
 import os
@@ -30,23 +30,21 @@ output_path = 'SERVICES/PACS/covidnet'
 
 # folders for each hospital system
 hospital_system_folders = {
-    'hospitalSystemA':[
+    'hospital_System_A':[
         "Hospital1",
         "Hospital2",
         "Hospital3"
     ],
-    'hospitalSystemB': [
+    'hospital_System_B': [
         "Hospital1",
         "Hospital2",
     ],
-    'hospitalSystemC': [
+    'hospital_System_C': [
         "Hospital1",
     ]
 }
 
-def UploadSwift(folder: str, dcmFiles):
-    # uploads all the files in a folder to swift
-
+def UploadSwift(dcmFiles):
     for f in dcmFiles:
         system(f'swift -A {SWIFT_AUTH_URL} -U {SWIFT_USERNAME} '
         + '-K testing upload users {}/{} '.format(f[0], f[1]) 
@@ -96,18 +94,10 @@ def UploadSwift(folder: str, dcmFiles):
                 print(f'{f[1]} error: {str(e)}')
                 continue
             print('SUCCESS')
-            
 
 
-def getCurrentHomeFolderAbsolute():
-    currentDirectory = os.getcwd().split('/')
-    currentDirectory.pop()
-    return '/'.join(currentDirectory) 
-
-
-if __name__== "__main__":
-    current_directory = getCurrentHomeFolderAbsolute()
-    hospital_system = current_directory.split('/').pop()
+def monitorHospitalfolders(hospital_system):
+    current_directory = os.getcwd()
     folders = hospital_system_folders[hospital_system]
     # create a set to store uploaded images for each hospital subfolder
     hospitals_dict = {}
@@ -117,13 +107,22 @@ if __name__== "__main__":
     while True:
         for folder in folders:
             existing_images = hospitals_dict[folder]
-            folderName = f"{current_directory}/{folder}"
+            folderName = f"{current_directory}/{hospital_system}/{folder}"
 
             # Index 0: folder 1: filename
             dcmFiles = [[folderName, f] for f in listdir(folderName) if isfile(join(folderName, f))]
             newImages = list(filter(lambda img: f'{img[0]}/{img[1]}' not in existing_images, dcmFiles))
 
-            UploadSwift(f"{current_directory}/{folder}", newImages)
+            UploadSwift(newImages)
             existing_images.update(map(lambda img: f'{img[0]}/{img[1]}', newImages))
 
         time.sleep(TIME_TO_WAIT_BEFORE_NEXT_UPLOAD)
+
+if __name__== "__main__":
+    proc = []
+    for hosptial_system in hospital_system_folders.keys():
+        hospitalUpload = Process(target=monitorHospitalfolders, args=(hosptial_system,))
+        hospitalUpload.start()
+        proc.append(hospitalUpload)
+    for p in proc:
+        p.join()
