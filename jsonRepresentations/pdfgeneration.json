@@ -1,0 +1,46 @@
+{
+  "type": "ds",
+  "parameters": [
+    {
+      "name": "imagefile",
+      "type": "str",
+      "optional": false,
+      "flag": "--imagefile",
+      "short_flag": "--imagefile",
+      "action": "store",
+      "help": "Name of image file submitted to the analysis",
+      "default": null,
+      "ui_exposed": true
+    },
+    {
+      "name": "patientId",
+      "type": "str",
+      "optional": false,
+      "flag": "--patientId",
+      "short_flag": "--patientId",
+      "action": "store",
+      "help": "Patient ID",
+      "default": null,
+      "ui_exposed": true
+    }
+  ],
+  "icon": "",
+  "authors": "DarwinAI (jefferpeng@darwinai.ca)",
+  "title": "PDF generation plugin",
+  "category": "",
+  "description": "An app that takes in prediction results and generates PDF",
+  "documentation": "http://wiki",
+  "license": "AGPL 3.0",
+  "version": "0.1",
+  "selfpath": "/usr/src/pdfgeneration",
+  "selfexec": "pdfgeneration.py",
+  "execshell": "python3",
+  "max_number_of_workers": 1,
+  "min_number_of_workers": 1,
+  "max_memory_limit": "",
+  "min_memory_limit": "",
+  "max_cpu_limit": "",
+  "min_cpu_limit": "",
+  "max_gpu_limit": 0,
+  "min_gpu_limit": 0
+}

@@ -9,3 +9,6 @@ http -a cubeadmin:cubeadmin1234 -f POST http://localhost:8010/api/v1/plugins/ do
 http -a cubeadmin:cubeadmin1234 -f POST http://localhost:8010/api/v1/plugins/ dock_image=local/pl-ct-covidnet \
  descriptor_file@jsonRepresentations/ct_covidnet.json public_repo=https://github.com/FNNDSC/pl-simplefsapp name=pl-ct-covidnet
 
+http -a cubeadmin:cubeadmin1234 -f POST http://localhost:8010/api/v1/plugins/ dock_image=local/pl-pdfgeneration \
+ descriptor_file@jsonRepresentations/pdfgeneration.json public_repo=https://github.com/FNNDSC/pl-simplefsapp name=pl-pdfgeneration
+
