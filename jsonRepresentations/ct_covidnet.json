@@ -1,1 +1,35 @@
-{"type": "ds", "parameters": [{"name": "imagefile", "type": "str", "optional": false, "flag": "--imagefile", "short_flag": "--imagefile", "action": "store", "help": "Name of CT image file to infer from", "default": null, "ui_exposed": true}], "icon": "", "authors": "DarwinAI <jeffer.peng@darwinai.ca>", "title": "Plugin to run covidnet on CT images", "category": "", "description": "Use COVID-Net prediction on CT scan.", "documentation": "https://github.com/FNNDSC/pl-CT-covidnet", "license": "AGPL-3.0", "version": "0.2.0", "selfpath": "/usr/local/bin", "selfexec": "ct_covidnet", "execshell": "/usr/bin/python3", "max_number_of_workers": 1, "min_number_of_workers": 1, "max_memory_limit": "", "min_memory_limit": "", "max_cpu_limit": "", "min_cpu_limit": "", "max_gpu_limit": 0, "min_gpu_limit": 0}
+{
+    "type": "ds",
+    "parameters": [
+        {
+            "name": "imagefile",
+            "type": "str",
+            "optional": false,
+            "flag": "--imagefile",
+            "short_flag": "--imagefile",
+            "action": "store",
+            "help": "Name of CT image file to infer from",
+            "default": null,
+            "ui_exposed": true
+        }
+    ],
+    "icon": "",
+    "authors": "DarwinAI <jeffer.peng@darwinai.ca>",
+    "title": "Plugin to run covidnet on CT images",
+    "category": "",
+    "description": "Use COVID-Net prediction on CT scan.",
+    "documentation": "https://github.com/FNNDSC/pl-CT-covidnet",
+    "license": "AGPL-3.0",
+    "version": "0.2.0",
+    "selfpath": "/usr/local/bin",
+    "selfexec": "ct_covidnet",
+    "execshell": "/usr/bin/python3",
+    "max_number_of_workers": 1,
+    "min_number_of_workers": 1,
+    "max_memory_limit": "",
+    "min_memory_limit": "",
+    "max_cpu_limit": "",
+    "min_cpu_limit": "",
+    "max_gpu_limit": 0,
+    "min_gpu_limit": 0
+}
