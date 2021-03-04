@@ -14,13 +14,15 @@ You can install the required python libraries by executing `./install_packages.s
 
 ## Usage
 
-1. Upload plugins to ChRIS. There are 2 options for doing this:
+1. Upload plugins to ChRIS:
 
    1. Run `./uploadPlugins.sh`
    2. Go to  `http://localhost:8000/chris-admin/plugins/plugin/add/`
    3. For each of the plugins, select `Host` as the compute resource, enter the plugin name, and Save
 
-   Note: It may be the case that the `pl-dircopy`, `pl-med2img`, `pl-covidnet`, or `pl-ct-covidnet` plugins fail to run due to breaking changes made to their images. If this happens, a stable version of each of the plugins can be pulled and registered instead:
+   
+
+   Note: It may be the case that the `pl-dircopy`, `pl-med2img`, `pl-covidnet`, or `pl-ct-covidnet` plugins fail to run due to breaking changes made to their images. If this happens, a stable version of each of the plugins can be pulled and registered instead :
 
    1. Pull the Docker images:
 
