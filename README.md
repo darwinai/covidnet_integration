@@ -16,13 +16,11 @@ You can install the required python libraries by executing `./install_packages.s
 
 1. Upload plugins to ChRIS. There are 2 options for doing this:
 
-   	#### Option 1
-
    1. Run `./uploadPlugins.sh`
    2. Go to  `http://localhost:8000/chris-admin/plugins/plugin/add/`
    3. For each of the plugins, select `Host` as the compute resource, enter the plugin name, and Save
 
-   #### Option 2 
+   Note: It may be the case that the `pl-dircopy`, `pl-med2img`, `pl-covidnet`, or `pl-ct-covidnet` plugins fail to run due to breaking changes made to their images. If this happens, a stable version of each of the plugins can be pulled and registered instead:
 
    1. Pull the Docker images:
 
@@ -33,31 +31,30 @@ You can install the required python libraries by executing `./install_packages.s
    docker pull fnndsc/pl-ct-covidnet:0.2.0
    ```
 
-   2. Register the plugins using the CLI or UI:
+   2. Register the plugins via CLI or UI:
 
-   **Via CLI**
+      **Via CLI**
 
-   ```
-   docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/25/ host
-   
-   docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/31/ host
-   
-   docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/30/ host
-   
-   docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/28/ host
-   ```
+      `cd` into the `ChRIS_ultron_backEnd` repo and run the commands to register the plugins:
 
-   **Via UI**	
+      | Plugin         | Command                                                      |
+      | -------------- | ------------------------------------------------------------ |
+      | pl-dircopy     | `docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/25/ host` |
+      | pl-med2img     | `docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/31/ host` |
+      | pl-covidnet    | `docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/30/ host` |
+      | pl-ct-covidnet | `docker-compose -f docker-compose_dev.yml exec chris_dev python plugins/services/manager.py register --pluginurl https://chrisstore.co/api/v1/plugins/28/ host` |
 
-   1. Go to  `http://localhost:8000/chris-admin/plugins/plugin/add/`
-   2. For each of the plugins, select `Host` as the compute resource, then add the corresponding URL, and Save
+      **Via UI**	
 
-   | Plugin         | URL                                      |
-   | -------------- | ---------------------------------------- |
-   | pl-dircopy     | https://chrisstore.co/api/v1/plugins/25/ |
-   | pl-med2img     | https://chrisstore.co/api/v1/plugins/31/ |
-   | pl-covidnet    | https://chrisstore.co/api/v1/plugins/30/ |
-   | pl-ct-covidnet | https://chrisstore.co/api/v1/plugins/28/ |
+      1. Go to  `http://localhost:8000/chris-admin/plugins/plugin/add/`
+      2. For each of the plugins, select `Host` as the compute resource, then add the corresponding URL, and Save
+
+      | Plugin         | URL                                      |
+      | -------------- | ---------------------------------------- |
+      | pl-dircopy     | https://chrisstore.co/api/v1/plugins/25/ |
+      | pl-med2img     | https://chrisstore.co/api/v1/plugins/31/ |
+      | pl-covidnet    | https://chrisstore.co/api/v1/plugins/30/ |
+      | pl-ct-covidnet | https://chrisstore.co/api/v1/plugins/28/ |
 
 2. To upload mock dicom images: `./run_mock.sh`
 
