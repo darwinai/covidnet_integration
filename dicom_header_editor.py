@@ -3,7 +3,7 @@ from os import listdir, system
 from os.path import isfile, join
 import datetime
 
-src_folder = 'src_images'
+src_folder = 'src_image'
 dest_folder = 'dest_images'
 base_file_name = 'custom_dicom_'
 data = [
