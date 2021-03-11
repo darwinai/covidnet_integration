@@ -1,4 +1,4 @@
-# Covidnet Integration Repo
+# COVID-Net Integration Repo
 
 This repo is an integration to 
 1. upload plugins to ChRIS
