@@ -9,7 +9,7 @@ from os.path import isfile, join
 from chrisclient import client
 
 parser = argparse.ArgumentParser(description='COVID-Net Training Script')
-parser.add_argument('--mock', default=False, type=bool, help='To use Mock data or not')
+parser.add_argument('--imageDir', default='images', type=str, help='Directory containing images to upload')
 
 args = parser.parse_args()
 
@@ -22,9 +22,9 @@ SWIFT_USERNAME = 'chris:chris1234'
 SWIFT_KEY = 'testing'
 SWIFT_CONTAINER_NAME = 'users'
 output_path = 'SERVICES/PACS/covidnet'
-folder = 'images'
+folder = args.imageDir
 
-# get all dicom images
+# Get all dicom images
 dcmFiles = [[folder, f] for f in listdir(folder) if isfile(join(folder, f))]
 
 for f in dcmFiles:
@@ -32,7 +32,7 @@ for f in dcmFiles:
       + '-K testing upload users {}/{} '.format(f[0], f[1]) 
       +'--object-name "{}/{}"'.format(output_path, f[1]))
 
-# initiate a Swift service connection
+# Initiate a Swift service connection
 conn = swiftclient.Connection(user=SWIFT_USERNAME,
                               key=SWIFT_KEY,
                               authurl=SWIFT_AUTH_URL)
@@ -50,64 +50,24 @@ while len(object_list) < len(dcmFiles) and poll_loop < max_polls:
         time.sleep(0.2)
         poll_loop += 1
 
-
-# increment the value in mock data each time
-mockData = {
-  'PatientID': 12345678,
-  "StudyInstanceUID": 11111111,
-  "SeriesInstanceUID": 22222222
-}
-mockBirthDate = "1994-2-10"
-mockNames = [
-  "Bill Ha"
-]
-# if the image belong here, put them in a different studyinstanceUID
-differentInstance = [
-  '0000.dcm',
-  '0001.dcm',
-  '0002.dcm',
-  '0003.dcm',
-  '0004.dcm',
-  '0005.dcm',
-  '0006.dcm',
-  'ex-covid-ct.dcm'
-]
-
-
 for index in range(len(dcmFiles)):
   f = dcmFiles[index]
   with open(join(f[0],f[1]), 'rb') as infile:
       ds = dcmread(infile)
-      if not args.mock:
-        pacs_data = {
-          'path': f'SERVICES/PACS/covidnet/{f[1]}',
-          'PatientID': str(ds.PatientID), 
-          'PatientName': str(ds.PatientName), 
-          'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
-          'PatientAge': str(ds.PatientAge),
-          'PatientSex': str(ds.PatientSex),
-          'StudyInstanceUID': str(ds.StudyInstanceUID), 
-          'StudyDescription': 'Some description of the study', 
-          'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
-          'SeriesDescription': str(ds.SeriesDescription), 
-          'Modality': ds.Modality,
-          'pacs_name': 'covidnet'
-        }
-      else:  # use mock
-        pacs_data = {
-          'path': f'SERVICES/PACS/covidnet/{f[1]}',
-          'PatientID': str(mockData['PatientID']), 
-          'PatientName': str(mockNames[len(mockNames)-1]) if index >= len(mockNames) else str(mockNames[index]), 
-          'PatientBirthDate': str(ds.PatientBirthDate) if ds.PatientBirthDate != '' else mockBirthDate,
-          'PatientAge': str(ds.PatientAge) if hasattr(ds, 'PatientAge') else 30,
-          'PatientSex': str(ds.PatientSex),
-          'StudyInstanceUID': str(mockData['StudyInstanceUID']) if f[1] not in differentInstance else  str(mockData['StudyInstanceUID']+2),
-          'StudyDescription': 'XRay Scan for possible COVID' if f[1] not in differentInstance else "CT Scan for possible Covid", 
-          'SeriesInstanceUID': str(str(mockData['SeriesInstanceUID']+index)), 
-          'SeriesDescription': str(ds.SeriesDescription) if hasattr(ds, 'SeriesDescription') else 'Default Description',
-          'Modality': ds.Modality if hasattr(ds, 'Modality') else 'CT',
-          'pacs_name': 'covidnet'
-        }
+      pacs_data = {
+        'path': f'SERVICES/PACS/covidnet/{f[1]}',
+        'PatientID': str(ds.PatientID), 
+        'PatientName': str(ds.PatientName), 
+        'PatientBirthDate': str(ds.PatientBirthDate),
+        'PatientAge': str(ds.PatientAge),
+        'PatientSex': str(ds.PatientSex),
+        'StudyInstanceUID': str(ds.StudyInstanceUID), 
+        'StudyDescription': str(ds.StudyDescription), 
+        'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
+        'SeriesDescription': str(ds.SeriesDescription), 
+        'Modality': ds.Modality,
+        'pacs_name': 'covidnet'
+      }
       try:
         chris_client.register_pacs_file(pacs_data)
       except:
