@@ -24,13 +24,15 @@ Please check monitorAndUploadSwift.py for more information on the folder structu
 
 ## Creating more mock DICOM files
 
-`dicom_header_editor.py` can be used to generate new copies of existing DICOM files with modified headers (same image, but with a new Patient Name, Age, SeriesInstanceUID, etc.). It can be useful for creating new sets of DICOM files with varying header properties for manually testing COVID-Net UI.
+`dicom_header_editor/dicom_header_editor.py` can be used to generate new copies of existing DICOM files with modified headers (same image, but with a new Patient Name, Age, SeriesInstanceUID, etc.). It can be useful for creating new sets of DICOM files with varying header properties for manually testing COVID-Net UI. The script takes a list of objects containing the desired headers and creates a copy of an existing DICOM file for each object in that list.
 
-At the top of `dicom_header_editor.py` are 4 variables to set:
+When running `dicom_header_editor.py`, there are 4 arguments to pass:
 
-* `src_folder`: the folder that will contain the DICOM file to create copies from.
-* `dest_folder`: the folder where the resulting copies are outputted to.
-* `base_file_name`: the desired file name prefix for the resulting copies.
-* `data`: an array of objects, each containing the most relevant DICOM header properties and their desired values. The script will output as many copies as there are objects in this array.
+* `src`: the DICOM file that will be used as reference to generate the new files.
+* `dest`: the folder where the resulting files are outputted to.
+* `baseName`: the desired file name prefix for the resulting files.
+* `headers`: the JSON file containing an array of objects with the headers to set.
 
-The script can be run using `python3 dicom_header_editor.py`.
+For example, `python3 dicom_header_editor.py --src=dicom.dcm --dest=dest_images --baseName=custom_ --headers=headers.json`.
+
+An example `headers` JSON file is provided in `dicom_header_editor/headers.json`. Running the above command will generate a copy of `dicom.dcm` in `/dest_images` called `custom_0.dcm` with headers as specified in the one object listed in `headers.json`.
