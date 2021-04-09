@@ -1,0 +1,15 @@
+[
+  {
+    "FileNameSuffix": "0",
+    "PatientID": "12345678",
+    "PatientName": "Bill Ha",
+    "PatientAge": "21",
+    "PatientBirthDate": "2000-01-01",
+    "ProtocolName": "XR Posteroanterior (PA) view",
+    "StudyInstanceUID": "1.2.276.0.7230010.3.1.2.8323329.8519.1517874337.873080",
+    "StudyDescription": "Study Description",
+    "SeriesInstanceUID": "1.2.276.0.7230010.3.1.3.8323329.8519.1517874337.873099",
+    "SeriesDescription": "Series Description",
+    "StudyDate": "2021-01-01"
+  }
+]
