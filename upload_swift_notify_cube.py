@@ -61,6 +61,8 @@ for index in range(len(dcmFiles)):
         'PatientBirthDate': str(ds.PatientBirthDate),
         'PatientAge': str(ds.PatientAge),
         'PatientSex': str(ds.PatientSex),
+        'ProtocolName': str(ds.ProtocolName), 
+        'StudyDate': str(ds.StudyDate), 
         'StudyInstanceUID': str(ds.StudyInstanceUID), 
         'StudyDescription': str(ds.StudyDescription), 
         'SeriesInstanceUID': str(ds.SeriesInstanceUID), 
