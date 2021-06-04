@@ -7,6 +7,7 @@ from os import listdir, system
 from os.path import isfile, join
 
 from chrisclient import client
+from chrisclient.exceptions import ChrisRequestException
 
 parser = argparse.ArgumentParser(description='COVID-Net Training Script')
 parser.add_argument('--imageDir', default='images', type=str, help='Directory containing images to upload')
@@ -72,7 +73,7 @@ for index in range(len(dcmFiles)):
       }
       try:
         chris_client.register_pacs_file(pacs_data)
-      except:
-        print('Already Registered: {}'.format(f[1]))
+      except ChrisRequestException as e:
+        print(f"{f[1]}: {e}")
         continue
       print('SUCCESS')
