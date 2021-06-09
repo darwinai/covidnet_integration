@@ -2,7 +2,8 @@
 # Use the following installation instructions instead
 # https://httpie.io/docs#installation
 # httpie
-python-swiftclient
 pydicom
+pypx
 python-chrisclient
+python-swiftclient
 requests
