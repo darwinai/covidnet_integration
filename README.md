@@ -12,6 +12,8 @@ You can install the required python libraries by executing `./install_packages.s
 
 ## Usage
 
+### If building from source:
+
 1. Upload plugins to ChRIS:
 
    1. Run `./uploadPlugins.sh`
@@ -22,6 +24,11 @@ You can install the required python libraries by executing `./install_packages.s
 
 3. To monitor hospital dicom images folder and upload to swift: `python3 monitorAndUploadSwift.py`. Please check `monitorAndUploadSwift.py` for more information on the folder structure it needs to be in to work properly 
 3. Run `./generateHospitalFolderStructure.sh`
+
+### If pulling from dockerhub (using latest stable versions):
+
+1. Copy `postscript.sh` into `ChRIS_ultron_backEnd`, replacing the default one that exists in that folder
+2. After the CUBE backend has been instantiated using `make.sh`, run `./postscript.sh`
 
 **Note**: If there are any issues with uploading or running plugins, an alternative method for adding plugins is the following:
 
