@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import swiftclient
 import time
 import argparse
@@ -18,7 +19,7 @@ chris_client = client.Client("http://localhost:8000/api/v1/", "chris", "chris123
 
 # Swift service settings
 DEFAULT_FILE_STORAGE = 'swift.storage.SwiftStorage'
-SWIFT_AUTH_URL = 'http://127.0.0.1:8080/auth/v1.0'
+SWIFT_AUTH_URL = 'http://localhost:8080/auth/v1.0'
 SWIFT_USERNAME = 'chris:chris1234'
 SWIFT_KEY = 'testing'
 SWIFT_CONTAINER_NAME = 'users'
