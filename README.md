@@ -8,7 +8,9 @@ This repo is an integration to
 
 ## Installation
 
-You can install the required python libraries by executing `./install_packages.sh` script
+You can install the required python libraries by running `./install_packages.sh`
+
+Install httpie through the following instructions: https://httpie.io/docs#installation
 
 ## Usage
 
