@@ -1,0 +1,8 @@
+# Installing httpie through pip is out of date
+# Use the following installation instructions instead
+# https://httpie.io/docs#installation
+# httpie
+python-swiftclient
+pydicom
+python-chrisclient
+requests
