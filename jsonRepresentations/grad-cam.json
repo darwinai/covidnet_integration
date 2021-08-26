@@ -1,0 +1,79 @@
+{
+  "type": "ds",
+  "parameters": [
+    {
+      "name": "modelname",
+      "type": "str",
+      "optional": true,
+      "flag": "--modelname",
+      "short_flag": "--modelname",
+      "action": "store",
+      "help": "Name of covidnet model being used",
+      "default": "COVIDNet-CXR4-B",
+      "ui_exposed": true
+    },
+    {
+      "name": "imagefile",
+      "type": "str",
+      "optional": false,
+      "flag": "--imagefile",
+      "short_flag": "--imagefile",
+      "action": "store",
+      "help": "Name of file containing prediction matrix",
+      "default": null,
+      "ui_exposed": true
+    },
+    {
+      "name": "predmatrix",
+      "type": "str",
+      "optional": false,
+      "flag": "--predmatrix",
+      "short_flag": "--predmatrix",
+      "action": "store",
+      "help": "Name of input tensor to graph",
+      "default": "input_1:0",
+      "ui_exposed": true
+    },
+    {
+      "name": "input_size",
+      "type": "int",
+      "optional": true,
+      "flag": "--input_size",
+      "short_flag": "--input_size",
+      "action": "store",
+      "help": "Size of input (ex: if 480x480, --input_size 480)",
+      "default": 480,
+      "ui_exposed": true
+    },
+    {
+      "name": "top_percent",
+      "type": "float",
+      "optional": true,
+      "flag": "--top_percent",
+      "short_flag": "--top_percent",
+      "action": "store",
+      "help": "Percent top crop from top of image",
+      "default": 0.08,
+      "ui_exposed": true
+    }
+  ],
+  "icon": "",
+  "authors": "Matthew Wang, DarwinAI (matthew.wang@darwinai.ca)",
+  "title": "A ChRIS plugin app",
+  "category": "",
+  "description": "Plugin to ChRIS for Grad-CAM functionalities",
+  "documentation": "http://wiki",
+  "license": "Opensource (MIT)",
+  "version": "0.1",
+  "selfpath": "/usr/src/grad_cam",
+  "selfexec": "grad_cam.py",
+  "execshell": "python3",
+  "max_number_of_workers": 1,
+  "min_number_of_workers": 1,
+  "max_memory_limit": "",
+  "min_memory_limit": "",
+  "max_cpu_limit": "",
+  "min_cpu_limit": "",
+  "max_gpu_limit": 0,
+  "min_gpu_limit": 0
+}
