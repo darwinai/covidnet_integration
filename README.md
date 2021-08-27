@@ -45,6 +45,17 @@ Install httpie through the following instructions: https://httpie.io/docs#instal
 | pl-ct-covidnet            | https://chrisstore.co/api/v1/plugins/30/ |
 | pl-covidnet-pdfgeneration | https://chrisstore.co/api/v1/plugins/32/ |
 
+## Uploading DICOM files to Swift
+
+```shell
+cd <path to the covidnet_integration repo>
+./make.sh
+export IMAGES_DIR="$PWD/images"
+docker run --network host -v ${IMAGES_DIR}:/images covidnet_integration upload_swift_notify_cube.py --imageDir /images
+```
+
+Update the `IMAGES_DIR` variable to point to where your image files are.
+
 ## Creating more mock DICOM files
 
 `dicom_header_editor/dicom_header_editor.py` can be used to generate new copies of existing DICOM files with modified headers (same image, but with a new Patient Name, Age, SeriesInstanceUID, etc.). It can be useful for creating new sets of DICOM files with varying header properties for manually testing COVID-Net UI. The script takes a list of objects containing the desired headers and creates a copy of an existing DICOM file for each object in that list.
