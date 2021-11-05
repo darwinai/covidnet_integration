@@ -13,11 +13,11 @@
 
 ./plugin_add.sh  "\
 	fnndsc/pl-dircopy, \
-	darwinai/covidnet-pl, \
-	darwinai/covidnet-grad-cam-pl, \
 	fnndsc/pl-med2img, \
 	fnndsc/pl-pdfgeneration, \
-	fnndsc/pl-ct-covidnet:0.2.0
+	darwinai/pl-covidnet, \
+	darwinai/pl-ct-covidnet, \
+	darwinai/pl-covidnet-grad-cam
 "
 
 #
