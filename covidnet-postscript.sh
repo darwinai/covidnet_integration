@@ -16,8 +16,8 @@
 	fnndsc/pl-med2img, \
 	darwinai/pl-covidnet, \
 	darwinai/pl-ct-covidnet, \
-	darwinai/pl-covidnet-grad-cam
-	darwinai/pl-covidnet-pdfgeneration, \
+	darwinai/pl-covidnet-grad-cam, \
+	darwinai/pl-covidnet-pdfgeneration
 "
 
 #
