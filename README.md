@@ -24,8 +24,9 @@ Install httpie through the following instructions: https://httpie.io/docs#instal
 
    3. For each of the plugins, select `Host` as the compute resource, enter the plugin name, and Save. If there are any issues with uploading or running plugins, see the note below.
 
+2. Run `./generateHospitalFolderStructure.sh`
+
 3. To monitor hospital dicom images folder and upload to swift: `python3 monitorAndUploadSwift.py`. Please check `monitorAndUploadSwift.py` for more information on the folder structure it needs to be in to work properly 
-3. Run `./generateHospitalFolderStructure.sh`
 
 ### If pulling from dockerhub (using latest stable versions):
 
